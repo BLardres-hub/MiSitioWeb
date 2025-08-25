@@ -1,0 +1,441 @@
+````html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portafolio | Leonardo Andrés Feria Ruiz</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #302c6e;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        /* Blurred Color Blobs */
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(56px);
+            opacity: 0.22;
+            pointer-events: none;
+            z-index: 0;
+            transition: opacity 0.5s;
+        }
+        .blob1 { width: 320px; height: 320px; top: -60px; left: -80px; background: #7f9cf5; animation: float1 16s ease-in-out infinite; }
+        .blob2 { width: 220px; height: 220px; top: 70px; right: -60px; background: #38bdf8; animation: float2 20s ease-in-out infinite; }
+        .blob3 { width: 180px; height: 180px; bottom: 80px; left: 40px; background: #a5b4fc; animation: float3 18s ease-in-out infinite; }
+        .blob4 { width: 260px; height: 260px; bottom: -60px; right: 40px; background: #818cf8; animation: float4 22s ease-in-out infinite; }
+        /* Middle and bottom blobs */
+        .blob5 { width: 180px; height: 180px; top: 44%; left: 12%; background: #7f9cf5; animation: float2 17s ease-in-out infinite;}
+        .blob6 { width: 120px; height: 120px; top: 62%; right: 14%; background: #38bdf8; animation: float3 19s ease-in-out infinite;}
+        .blob7 { width: 140px; height: 140px; bottom: 13%; left: 22%; background: #a5b4fc; animation: float1 14s ease-in-out infinite;}
+        .blob8 { width: 160px; height: 160px; bottom: 3%; right: 19%; background: #818cf8; animation: float4 15s ease-in-out infinite;}
+        @keyframes float1 { 0%, 100% {transform: translateY(0) scale(1);} 50% {transform: translateY(30px) scale(1.03);} }
+        @keyframes float2 { 0%, 100% {transform: translateY(0) scale(1);} 50% {transform: translateY(-35px) scale(1.04);} }
+        @keyframes float3 { 0%, 100% {transform: translateX(0) scale(1);} 50% {transform: translateX(32px) scale(1.02);} }
+        @keyframes float4 { 0%, 100% {transform: translateY(0) scale(1);} 50% {transform: translateY(46px) scale(1.05);} }
+        /* SVG Dots Overlay */
+        .dots-overlay {
+            position: fixed;
+            width: 100vw;
+            height: 100vh;
+            left: 0; top: 0;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.04;
+        }
+        /* Decorative geometric shapes (all over page: top, middle, bottom) */
+        .geo {
+            position: absolute;
+            opacity: 0.13;
+            pointer-events: none;
+            z-index: 2;
+            filter: blur(1px);
+        }
+        /* Top decoratives */
+        .geo-triangle {top:6%; left:10%; width:60px; height:60px; animation: rotateShape 24s linear infinite;}
+        .geo-square {top:9%; right:8%; width:44px; height:44px; animation: rotateShape 38s linear infinite;}
+        .geo-hex {top:13%; left:19%; width:54px; height:54px; animation: rotateShape 30s linear infinite;}
+        /* Middle decoratives */
+        .geo-triangle2 {top:51%; left:80%; width:50px; height:50px; animation: rotateShape 19s linear infinite;}
+        .geo-square2 {top:60%; right:18%; width:36px; height:36px; animation: rotateShape 36s linear infinite;}
+        .geo-hex2 {top:43%; left:60%; width:48px; height:48px; animation: rotateShape 22s linear infinite;}
+        /* Bottom decoratives */
+        .geo-triangle3 {bottom:13%; left:15%; width:42px; height:42px; animation: rotateShape 23s linear infinite;}
+        .geo-square3 {bottom:4%; right:12%; width:28px; height:28px; animation: rotateShape 35s linear infinite;}
+        .geo-hex3 {bottom:8%; left:60%; width:32px; height:32px; animation: rotateShape 27s linear infinite;}
+        @keyframes rotateShape { 0%{transform:rotate(0deg);} 100%{transform:rotate(360deg);} }
+        /* Existing shapes */
+        .background-shapes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 3;
+            overflow: hidden;
+        }
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0) 70%);
+        }
+        .shape1 {
+            width: 300px;
+            height: 300px;
+            top: 14%;
+            left: 4%;
+        }
+        .shape2 {
+            width: 380px;
+            height: 380px;
+            bottom: 9%;
+            right: 8%;
+        }
+        .card {
+            background-color: white;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s cubic-bezier(.17,.67,.83,.67), box-shadow 0.2s, border-color 0.2s;
+            box-shadow: 0 2px 12px rgba(48,44,110,0.10);
+        }
+        .card:hover {
+            transform: scale(1.035) translateY(-4px);
+            box-shadow: 0 12px 32px rgba(48,44,110,0.20), 0 0 0 2px #7f9cf5;
+            border-color: #7f9cf5;
+        }
+        .skill-tag {
+            transition: all 0.18s cubic-bezier(.17,.67,.83,.67);
+            cursor: pointer;
+        }
+        .skill-tag:hover {
+            transform: scale(1.08);
+            background: linear-gradient(90deg, #302c6e 0%, #7f9cf5 100%);
+            color: #fff;
+            box-shadow: 0 6px 16px rgba(48,44,110,0.19);
+        }
+        .animated-item {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s, transform 0.6s;
+        }
+        .animated-item.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 900;
+            letter-spacing: -0.03em;
+            background: linear-gradient(90deg, #7f9cf5 0%, #60a5fa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+            display: inline-block;
+            margin-bottom: 2.3rem;
+            padding-bottom: 0.6rem;
+        }
+        /* Dots "underline" for creative titles */
+        .section-title-dots {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            gap: 0.3em;
+            position: absolute;
+            left: 50%;
+            bottom: -0.4rem;
+            transform: translateX(-50%);
+            z-index: 1;
+        }
+        .dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #7f9cf5 0%, #60a5fa 100%);
+            opacity: 0.78;
+            box-shadow: 0 0 7px rgba(127,156,245,0.12);
+            transition: transform 0.3s;
+        }
+        .dot.sm {
+            width: 8px;
+            height: 8px;
+            opacity: 0.5;
+            margin-bottom: 2px;
+        }
+        .dot.md {
+            width: 12px;
+            height: 12px;
+            opacity: 0.7;
+        }
+        .dot.lg {
+            width: 18px;
+            height: 18px;
+            opacity: 0.9;
+            margin-bottom: -1px;
+        }
+        .section-title:hover .dot { transform: scale(1.15); }
+        @media (max-width: 640px) {
+            .section-title { font-size: 2rem; }
+            .dot { width: 9px; height: 9px; }
+            .dot.lg { width: 12px; height: 12px; }
+            .dot.md { width: 10px; height: 10px; }
+            .dot.sm { width: 5px; height: 5px; }
+        }
+        .subsection-title {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: #302c6e;
+            letter-spacing: -0.02em;
+        }
+        .body-text {
+            font-size: 1.08rem;
+            color: #374151;
+        }
+        @media (max-width: 640px) {
+            .subsection-title {
+                font-size: 1.12rem;
+            }
+            .body-text {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body class="text-slate-800">
+    <!-- Blurred blobs - top, middle, bottom -->
+    <div class="blob blob1"></div>
+    <div class="blob blob2"></div>
+    <div class="blob blob3"></div>
+    <div class="blob blob4"></div>
+    <div class="blob blob5"></div>
+    <div class="blob blob6"></div>
+    <div class="blob blob7"></div>
+    <div class="blob blob8"></div>
+    <!-- SVG Dots Overlay -->
+    <svg class="dots-overlay">
+        <defs>
+            <pattern id="dots" x="0" y="0" width="32" height="32" patternUnits="userSpaceOnUse">
+                <circle cx="2" cy="2" r="1.5" fill="#fff"/>
+            </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#dots)" />
+    </svg>
+    <!-- Geometric shapes all over page -->
+    <!-- Top decoratives -->
+    <svg class="geo geo-triangle" viewBox="0 0 60 60"><polygon points="30,0 60,60 0,60" fill="#60a5fa"/></svg>
+    <svg class="geo geo-square" viewBox="0 0 44 44"><rect x="0" y="0" width="44" height="44" fill="#7f9cf5"/></svg>
+    <svg class="geo geo-hex" viewBox="0 0 54 54"><polygon points="27,0 54,13 54,41 27,54 0,41 0,13" fill="#818cf8"/></svg>
+    <!-- Middle decoratives -->
+    <svg class="geo geo-triangle2" viewBox="0 0 50 50"><polygon points="25,0 50,50 0,50" fill="#60a5fa"/></svg>
+    <svg class="geo geo-square2" viewBox="0 0 36 36"><rect x="0" y="0" width="36" height="36" fill="#7f9cf5"/></svg>
+    <svg class="geo geo-hex2" viewBox="0 0 48 48"><polygon points="24,0 48,12 48,36 24,48 0,36 0,12" fill="#a5b4fc"/></svg>
+    <!-- Bottom decoratives -->
+    <svg class="geo geo-triangle3" viewBox="0 0 42 42"><polygon points="21,0 42,42 0,42" fill="#60a5fa"/></svg>
+    <svg class="geo geo-square3" viewBox="0 0 28 28"><rect x="0" y="0" width="28" height="28" fill="#7f9cf5"/></svg>
+    <svg class="geo geo-hex3" viewBox="0 0 32 32"><polygon points="16,0 32,8 32,24 16,32 0,24 0,8" fill="#a5b4fc"/></svg>
+    <!-- Existing shapes -->
+    <div class="background-shapes">
+        <div class="shape shape1"></div>
+        <div class="shape shape2"></div>
+    </div>
+    <!-- Main Content -->
+    <div class="relative max-w-5xl mx-auto p-4 sm:p-6 md:p-8 z-10">
+        <!-- Header Section -->
+        <header class="text-center py-20 animated-item">
+            <h1 class="section-title">
+                Leonardo Andrés Feria Ruiz
+                <span class="section-title-dots">
+                    <span class="dot sm"></span>
+                    <span class="dot md"></span>
+                    <span class="dot lg"></span>
+                    <span class="dot md"></span>
+                    <span class="dot sm"></span>
+                </span>
+            </h1>
+            <p class="mt-4 text-2xl font-semibold text-sky-400 tracking-tight">Estrategia y Transformación de Negocios</p>
+        </header>
+        <main class="space-y-10">
+            <!-- Grid Layout -->
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Profile & Skills Column -->
+                <div class="md:col-span-1 space-y-8">
+                    <section class="card p-6 rounded-2xl shadow-xl animated-item">
+                        <h2 class="subsection-title mb-4 flex items-center gap-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-600"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                            <span>Perfil Profesional</span>
+                        </h2>
+                        <p class="body-text">Estratega transformador de negocios, certificado en Scrum, con sólida formación en negocios conscientes, análisis situacional y diseño de propuestas de innovación.</p>
+                    </section>
+                    <section class="card p-6 rounded-2xl shadow-xl animated-item">
+                         <h2 class="subsection-title mb-4 flex items-center gap-3">
+                           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-600"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                            <span>Contacto</span>
+                        </h2>
+                        <div class="space-y-3 text-sm">
+                             <a href="mailto:Bsleonardoa@gmail.com" class="flex items-center gap-3 text-slate-600 hover:text-blue-600 transition-colors">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                                <span>Bsleonardoa@gmail.com</span>
+                            </a>
+                             <a href="http://www.linkedin.com/in/leonardo-andrés-feria-ruiz-8361b2331" target="_blank" class="flex items-center gap-3 text-slate-600 hover:text-blue-600 transition-colors">
+                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+                                <span>LinkedIn</span>
+                            </a>
+                        </div>
+                    </section>
+                </div>
+                <!-- Education & Achievements Column -->
+                <div class="md:col-span-2 space-y-8">
+                    <section class="card p-6 rounded-2xl shadow-xl animated-item">
+                        <h2 class="subsection-title mb-4 flex items-center gap-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-600"><path d="m6 9 6 6 6-6"/></svg>
+                            <span>Educación</span>
+                        </h2>
+                        <div class="space-y-4">
+                            <div>
+                                <h3 class="font-bold text-blue-700 text-lg">Lic. en Estrategia y Transformación de Negocios</h3>
+                                <p class="body-text font-medium">Tecnológico de Monterrey, Campus Hidalgo (2021 - 2025)</p>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-blue-700 text-lg">Experiencia Internacional</h3>
+                                <p class="body-text font-medium">Universidad de Valencia, España (2024)</p>
+                            </div>
+                        </div>
+                    </section>
+                     <section class="card p-6 rounded-2xl shadow-xl animated-item">
+                        <h2 class="subsection-title mb-4 flex items-center gap-3">
+                           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-600"><path d="M12 8c-2.2 0-4 1.8-4 4s1.8 4 4 4 4-1.8 4-4-1.8-4-4-4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.9 4.9 1.4 1.4"/><path d="m17.7 17.7 1.4 1.4"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m4.9 19.1 1.4-1.4"/><path d="m17.7 6.3 1.4-1.4"/></svg>
+                            <span>Logros y Reconocimientos</span>
+                        </h2>
+                         <ul class="list-disc list-inside body-text space-y-1">
+                            <li><span class="font-semibold text-slate-800">Distintivo al Mérito Académico</span> - Tecnológico de Monterrey</li>
+                            <li><span class="font-semibold text-slate-800">Desempeño Sobresaliente</span> - Ceneval</li>
+                        </ul>
+                    </section>
+                </div>
+            </div>
+            <!-- Full-width Skills Section -->
+            <section class="card p-8 rounded-2xl shadow-xl animated-item">
+                <h2 class="subsection-title text-center mb-6">
+                    Habilidades y Competencias
+                </h2>
+                <!-- Decorative SVG line -->
+                <div class="flex justify-center mb-8">
+                    <svg width="110" height="14" viewBox="0 0 110 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <ellipse cx="55" cy="7" rx="54" ry="6" fill="#7f9cf5" fill-opacity="0.15"/>
+                        <ellipse cx="55" cy="7" rx="40" ry="3" fill="#302c6e" fill-opacity="0.10"/>
+                    </svg>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
+                    <div>
+                        <h3 class="font-bold text-blue-600 mb-3 text-lg">Técnicas</h3>
+                        <div class="flex flex-wrap gap-2 justify-center">
+                            <span class="skill-tag bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full">Análisis de Datos</span>
+                            <span class="skill-tag bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full">Gestión de Proyectos</span>
+                            <span class="skill-tag bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full">Planificación Estratégica</span>
+                            <span class="skill-tag bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full">Inteligencia de Mercado</span>
+                            <span class="skill-tag bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full">Marketing Digital</span>
+                            <span class="skill-tag bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full">Análisis Financiero</span>
+                            <span class="skill-tag bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full">SCRUM</span>
+                            <span class="skill-tag bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full">Tableau</span>
+                        </div>
+                    </div>
+                     <div>
+                        <h3 class="font-bold text-blue-600 mb-3 text-lg">Blandas</h3>
+                         <div class="flex flex-wrap gap-2 justify-center">
+                            <span class="skill-tag bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full">Liderazgo</span>
+                            <span class="skill-tag bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full">Resolución de Problemas</span>
+                            <span class="skill-tag bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full">Comunicación Efectiva</span>
+                            <span class="skill-tag bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full">Pensamiento Crítico</span>
+                            <span class="skill-tag bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full">Adaptabilidad</span>
+                            <span class="skill-tag bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full">Trabajo en Equipo</span>
+                            <span class="skill-tag bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full">Negociación</span>
+                         </div>
+                    </div>
+                     <div>
+                        <h3 class="font-bold text-blue-600 mb-3 text-lg">Idiomas</h3>
+                         <div class="flex flex-wrap gap-2 justify-center">
+                            <span class="skill-tag bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full">Español (Nativo)</span>
+                            <span class="skill-tag bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full">Inglés (Avanzado)</span>
+                             <span class="skill-tag bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full">Italiano (Básico)</span>
+                              <span class="skill-tag bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full">Francés (Básico)</span>
+                        </div>
+                    </div>
+                     <div>
+                        <h3 class="font-bold text-blue-600 mb-3 text-lg">Certificaciones</h3>
+                         <div class="flex flex-wrap gap-2 justify-center">
+                            <span class="skill-tag bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full">Sim. CC</span>
+                            <span class="skill-tag bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full">Scrum Fundamentals</span>
+                             <span class="skill-tag bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full">SEBR</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- Projects Section -->
+            <section class="animated-item">
+                <h2 class="section-title text-center mb-8">
+                    Proyectos de Consultoría Académica
+                    <span class="section-title-dots">
+                        <span class="dot sm"></span>
+                        <span class="dot md"></span>
+                        <span class="dot lg"></span>
+                        <span class="dot md"></span>
+                        <span class="dot sm"></span>
+                    </span>
+                </h2>
+                <!-- Decorative SVG line -->
+                <div class="flex justify-center mb-8">
+                    <svg width="130" height="14" viewBox="0 0 130 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <ellipse cx="65" cy="7" rx="62" ry="6" fill="#7f9cf5" fill-opacity="0.12"/>
+                        <ellipse cx="65" cy="7" rx="46" ry="3" fill="#302c6e" fill-opacity="0.09"/>
+                    </svg>
+                </div>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="card p-6 rounded-2xl shadow-xl">
+                        <h3 class="font-bold text-blue-700 text-lg mb-1">Consultor Jr. | Cervecería Modelo de México</h3>
+                        <p class="text-xs font-medium text-slate-500 mb-2">2025</p>
+                        <p class="body-text">Análisis de mercado para submarcas, capacitación de equipos de venta y desarrollo de estrategias de cadena de suministro consciente.</p>
+                    </div>
+                    <div class="card p-6 rounded-2xl shadow-xl">
+                        <h3 class="font-bold text-blue-700 text-lg mb-1">Consultor Jr. | Hidalglass S.A. de C.V.</h3>
+                        <p class="text-xs font-medium text-slate-500 mb-2">2024</p>
+                        <p class="body-text">Diseño de proyectos con visión sistemática y desarrollo de metodologías de enseñanza basadas en gamificación para alinear valores.</p>
+                    </div>
+                    <div class="card p-6 rounded-2xl shadow-xl">
+                        <h3 class="font-bold text-blue-700 text-lg mb-1">Soluciones para el Mercado | Radiomóvil Dipsa</h3>
+                        <p class="text-xs font-medium text-slate-500 mb-2">2022</p>
+                        <p class="body-text">Creación de propuestas de innovación, construcción de escenarios predictivos y diseño de un plan de marketing integral.</p>
+                    </div>
+                    <div class="card p-6 rounded-2xl shadow-xl">
+                        <h3 class="font-bold text-blue-700 text-lg mb-1">Dirección Financiera | Tecnologías Agribest</h3>
+                        <p class="text-xs font-medium text-slate-500 mb-2">2022</p>
+                        <p class="body-text">Análisis de información cuantitativa y cualitativa para la toma de decisiones estratégicas y la mejora de la rentabilidad.</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+        <footer class="text-center text-xs text-slate-400 py-12 mt-8">
+            <p>Diseñado y desarrollado por Leonardo Andrés Feria Ruiz</p>
+        </footer>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const animatedItems = document.querySelectorAll('.animated-item');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+            animatedItems.forEach(item => {
+                observer.observe(item);
+            });
+        });
+    </script>
+</body>
+</html>
