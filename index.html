@@ -28,7 +28,6 @@
         .blob2 { width: 220px; height: 220px; top: 70px; right: -60px; background: #38bdf8; animation: float2 20s ease-in-out infinite; }
         .blob3 { width: 180px; height: 180px; bottom: 80px; left: 40px; background: #a5b4fc; animation: float3 18s ease-in-out infinite; }
         .blob4 { width: 260px; height: 260px; bottom: -60px; right: 40px; background: #818cf8; animation: float4 22s ease-in-out infinite; }
-        /* Middle and bottom blobs */
         .blob5 { width: 180px; height: 180px; top: 44%; left: 12%; background: #7f9cf5; animation: float2 17s ease-in-out infinite;}
         .blob6 { width: 120px; height: 120px; top: 62%; right: 14%; background: #38bdf8; animation: float3 19s ease-in-out infinite;}
         .blob7 { width: 140px; height: 140px; bottom: 13%; left: 22%; background: #a5b4fc; animation: float1 14s ease-in-out infinite;}
@@ -134,7 +133,9 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
             position: relative;
-            display: inline-block;
+            display: block;
+            width: 100%;
+            text-align: center;
             margin-bottom: 2.3rem;
             padding-bottom: 0.6rem;
         }
@@ -177,15 +178,8 @@
             margin-bottom: -1px;
         }
         .section-title:hover .dot { transform: scale(1.15); }
-        @media (max-width: 640px) {
-            .section-title { font-size: 2rem; }
-            .dot { width: 9px; height: 9px; }
-            .dot.lg { width: 12px; height: 12px; }
-            .dot.md { width: 10px; height: 10px; }
-            .dot.sm { width: 5px; height: 5px; }
-        }
         .subsection-title {
-            font-size: 1.35rem;
+            font-size: 1.55rem; /* was 1.35rem */
             font-weight: 700;
             color: #302c6e;
             letter-spacing: -0.02em;
@@ -195,8 +189,13 @@
             color: #374151;
         }
         @media (max-width: 640px) {
+            .section-title { font-size: 2rem; }
+            .dot { width: 9px; height: 9px; }
+            .dot.lg { width: 12px; height: 12px; }
+            .dot.md { width: 10px; height: 10px; }
+            .dot.sm { width: 5px; height: 5px; }
             .subsection-title {
-                font-size: 1.12rem;
+                font-size: 1.25rem; /* was 1.12rem */
             }
             .body-text {
                 font-size: 1rem;
@@ -205,7 +204,7 @@
     </style>
 </head>
 <body class="text-slate-800">
-    <!-- Blurred blobs - top, middle, bottom -->
+    <!-- Blobs all over the page -->
     <div class="blob blob1"></div>
     <div class="blob blob2"></div>
     <div class="blob blob3"></div>
@@ -375,7 +374,7 @@
             </section>
             <!-- Projects Section -->
             <section class="animated-item">
-                <h2 class="section-title text-center mb-8">
+                <h2 class="section-title text-center mb-8" style="width:100%;display:block;position:relative;">
                     Proyectos de Consultoría Académica
                     <span class="section-title-dots">
                         <span class="dot sm"></span>
